@@ -22,7 +22,7 @@ NSString *const PropertyListPreferencesKeyPlaySoundInForeground = @"Notification
 NSString *const PropertyListPreferencesKeyHasRegisteredVoipPush = @"VOIPPushEnabled";
 NSString *const PropertyListPreferencesKeyLastRecordedPushToken = @"LastRecordedPushToken";
 NSString *const PropertyListPreferencesKeyLastRecordedVoipToken = @"LastRecordedVoipToken";
-NSString *const PropertyListPreferencesKeyCallKitEnabled = @"CallKitEnabled";
+NSString *const PropertyListPreferencesKeyCallKitPrivacyEnabled = @"CallKitPrivacyEnabled";
 
 @implementation PropertyListPreferences
 
@@ -171,15 +171,15 @@ NSString *const PropertyListPreferencesKeyCallKitEnabled = @"CallKitEnabled";
 
 #pragma mark CallKit
 
-- (BOOL)isCallKitEnabled
+- (BOOL)isCallKitPrivacyEnabled
 {
-    NSNumber *preference = [self tryGetValueForKey:PropertyListPreferencesKeyCallKitEnabled];
+    NSNumber *preference = [self tryGetValueForKey:PropertyListPreferencesKeyCallKitPrivacyEnabled];
     return preference ? [preference boolValue] : YES;
 }
 
-- (void)setIsCallKitEnabled:(BOOL)flag
+- (void)setIsCallKitPrivacyEnabled:(BOOL)flag
 {
-    [self setValueForKey:PropertyListPreferencesKeyCallKitEnabled toValue:@(flag)];
+    [self setValueForKey:PropertyListPreferencesKeyCallKitPrivacyEnabled toValue:@(flag)];
 }
 
 #pragma mark Notification Preferences

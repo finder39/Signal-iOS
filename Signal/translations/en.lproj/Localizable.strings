@@ -85,6 +85,9 @@
 /* notification action */
 "CALLBACK_BUTTON_TITLE" = "Call back";
 
+/* The generic name used for calls if CallKit privacy is enabled */
+"CALLKIT_ANONYMOUS_CONTACT_NAME" = "Signal User";
+
 /* Activity Sheet label */
 "COMPARE_SAFETY_NUMBER_ACTION" = "Compare with Clipboard";
 
@@ -124,7 +127,7 @@
 /* No comment provided by engineer. */
 "COUNTRYCODE_SELECT_TITLE" = "Select Country Code";
 
-/* Accessibility label for the create new group button. */
+/* Accessibility label for the create group new group button */
 "CREATE_NEW_GROUP" = "Create new group";
 
 /* {{number of days}} embedded in strings, e.g. 'Alice updated disappearing messages expiration to {{5 days}}'. See other *_TIME_AMOUNT strings */
@@ -253,6 +256,9 @@
 /* Generic notice when message failed to send. */
 "ERROR_DESCRIPTION_CLIENT_SENDING_FAILURE" = "Failed to send message.";
 
+/* Error mesage indicating that message send is disabled due to prekey update failures */
+"ERROR_DESCRIPTION_MESSAGE_SEND_DISABLED_PREKEY_UPDATE_FAILURES" = "ERROR_DESCRIPTION_MESSAGE_SEND_DISABLED_PREKEY_UPDATE_FAILURES";
+
 /* Generic error used whenver Signal can't contact the server */
 "ERROR_DESCRIPTION_NO_INTERNET" = "Signal was unable to connect to the internet. Please try from another WiFi network or use mobile data.";
 
@@ -348,9 +354,6 @@
 
 /* No comment provided by engineer. */
 "GROUP_REMOVING_FAILED" = "Failed to leave group";
-
-/* Accessibilty label for group settings */
-"GROUP_SETTINGS_LABEL" = "Group settings";
 
 /* No comment provided by engineer. */
 "GROUP_TITLE_CHANGED" = "Title is now '%@'. ";
@@ -567,7 +570,8 @@
 /* No comment provided by engineer. */
 "OK" = "Ok";
 
-/* Button text which opens the settings app */
+/* Button text which opens the settings app
+   Label for button which opens the settings UI */
 "OPEN_SETTINGS_BUTTON" = "Settings";
 
 /* Info Message when {{other user}} disables or doesn't support disappearing messages */
@@ -756,8 +760,8 @@
 /* Navbar title */
 "SETTINGS_ABOUT" = "About";
 
-/* Short table cell label */
-"SETTINGS_ADVANCED_CALLKIT_TITLE" = "Use CallKit";
+/* Label for 'CallKit privacy' preference */
+"SETTINGS_ADVANCED_CALLKIT_PRIVACY_TITLE" = "Show Names & Numbers in CallKit";
 
 /* No comment provided by engineer. */
 "SETTINGS_ADVANCED_DEBUGLOG" = "Enable Debug Log";
@@ -768,22 +772,13 @@
 /* No comment provided by engineer. */
 "SETTINGS_ADVANCED_TITLE" = "Advanced";
 
-/* This setting is used to switch between new-style WebRTC calling and old-style RedPhone calling. */
-"SETTINGS_ADVANCED_WEBRTC" = "Enable Video Calling";
-
-/* The message of the alert shown when updates to the WebRTC property fail. */
-"SETTINGS_ADVANCED_WEBRTC_FAILED_MESSAGE" = "Could not update your preferences.";
-
-/* The title of the alert shown when updates to the WebRTC property fail. */
-"SETTINGS_ADVANCED_WEBRTC_FAILED_TITLE" = "Error";
-
 /* User settings section footer, a detailed explanation */
 "SETTINGS_BLOCK_ON_IDENITY_CHANGE_DETAIL" = "Requires your approval before communicating with someone who has a new safety number, commonly from a reinstall of Signal.";
 
 /* Table cell label */
 "SETTINGS_BLOCK_ON_IDENTITY_CHANGE_TITLE" = "Require Approval on Change";
 
-/* Settings button accessibility hint */
+/* Accessibility hint for the settings button */
 "SETTINGS_BUTTON_ACCESSIBILITY" = "Settings";
 
 /* No comment provided by engineer. */
@@ -834,8 +829,8 @@
 /* No comment provided by engineer. */
 "SETTINGS_SCREEN_SECURITY_DETAIL" = "Prevents Signal previews from appearing in the app switcher.";
 
-/* Settings table section footer. */
-"SETTINGS_SECTION_CALL_KIT_DESCRIPTION" = "CallKit allows you to answer calls directly from your lockscreen. Be aware that when using CallKit, Apple syncs some call metadata to your iCloud account.";
+/* Explanation of the 'CallKit Privacy` preference. */
+"SETTINGS_SECTION_CALL_KIT_PRIVACY_DESCRIPTION" = "CallKit allows you to answer calls directly from your lockscreen. If you show the names and phone numbers of incoming callers in CallKit, this information will appear in your phone's call history and will be synced to your iCloud account.";
 
 /* settings topic header for table section */
 "SETTINGS_SECTION_TITLE_CALLING" = "Calling";
