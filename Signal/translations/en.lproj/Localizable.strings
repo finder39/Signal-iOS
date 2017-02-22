@@ -760,9 +760,6 @@
 /* Navbar title */
 "SETTINGS_ABOUT" = "About";
 
-/* Label for 'CallKit privacy' preference */
-"SETTINGS_ADVANCED_CALLKIT_PRIVACY_TITLE" = "Show Names & Numbers in CallKit";
-
 /* No comment provided by engineer. */
 "SETTINGS_ADVANCED_DEBUGLOG" = "Enable Debug Log";
 
@@ -780,6 +777,9 @@
 
 /* Accessibility hint for the settings button */
 "SETTINGS_BUTTON_ACCESSIBILITY" = "Settings";
+
+/* Label for 'CallKit privacy' preference */
+"SETTINGS_CALLKIT_PRIVACY_TITLE" = "Show Names & Numbers";
 
 /* No comment provided by engineer. */
 "SETTINGS_CLEAR_HISTORY" = "Clear History Logs";

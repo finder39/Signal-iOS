@@ -15,16 +15,20 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, PrivacySettingsTableViewControllerSectionIndex) {
     PrivacySettingsTableViewControllerSectionIndexScreenSecurity,
     PrivacySettingsTableViewControllerSectionIndexHistoryLog,
-    PrivacySettingsTableViewControllerSectionIndexBlockOnIdentityChange
+    PrivacySettingsTableViewControllerSectionIndexBlockOnIdentityChange,
+    PrivacySettingsTableViewControllerSectionCalling,
+    PrivacySettingsTableViewControllerSection_Count,
 };
 
 @interface PrivacySettingsTableViewController ()
 
-@property (nonatomic, strong) UITableViewCell *enableScreenSecurityCell;
-@property (nonatomic, strong) UISwitch *enableScreenSecuritySwitch;
-@property (nonatomic, strong) UITableViewCell *blockOnIdentityChangeCell;
-@property (nonatomic, strong) UISwitch *blockOnIdentityChangeSwitch;
-@property (nonatomic, strong) UITableViewCell *clearHistoryLogCell;
+@property (nonatomic) UITableViewCell *enableCallKitPrivacyCell;
+@property (nonatomic) UISwitch *enableCallKitPrivacySwitch;
+@property (nonatomic) UITableViewCell *enableScreenSecurityCell;
+@property (nonatomic) UISwitch *enableScreenSecuritySwitch;
+@property (nonatomic) UITableViewCell *blockOnIdentityChangeCell;
+@property (nonatomic) UISwitch *blockOnIdentityChangeSwitch;
+@property (nonatomic) UITableViewCell *clearHistoryLogCell;
 
 @end
 
@@ -47,6 +51,17 @@ typedef NS_ENUM(NSInteger, PrivacySettingsTableViewControllerSectionIndex) {
     self.title = NSLocalizedString(@"SETTINGS_PRIVACY_TITLE", @"");
 
     [self useOWSBackButton];
+
+    // CallKit privacy
+    self.enableCallKitPrivacyCell = [UITableViewCell new];
+    self.enableCallKitPrivacyCell.textLabel.text = NSLocalizedString(@"SETTINGS_CALLKIT_PRIVACY_TITLE", @"Label for 'CallKit privacy' preference");
+    self.enableCallKitPrivacySwitch = [UISwitch new];
+    [self.enableCallKitPrivacySwitch setOn:![[Environment getCurrent].preferences isCallKitPrivacyEnabled]];
+    [self.enableCallKitPrivacySwitch addTarget:self
+                                        action:@selector(didToggleEnableCallKitPrivacySwitch:)
+                              forControlEvents:UIControlEventTouchUpInside];
+    self.enableCallKitPrivacyCell.accessoryView = self.enableCallKitPrivacySwitch;
+    
 
     // Enable Screen Security Cell
     self.enableScreenSecurityCell                = [[UITableViewCell alloc] init];
@@ -79,7 +94,7 @@ typedef NS_ENUM(NSInteger, PrivacySettingsTableViewControllerSectionIndex) {
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return PrivacySettingsTableViewControllerSection_Count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -90,6 +105,8 @@ typedef NS_ENUM(NSInteger, PrivacySettingsTableViewControllerSectionIndex) {
             return 1;
         case PrivacySettingsTableViewControllerSectionIndexBlockOnIdentityChange:
             return 1;
+        case PrivacySettingsTableViewControllerSectionCalling:
+            return self.supportsCallKit ? 1 : 0;
         default:
             return 0;
     }
@@ -103,6 +120,10 @@ typedef NS_ENUM(NSInteger, PrivacySettingsTableViewControllerSectionIndex) {
         case PrivacySettingsTableViewControllerSectionIndexBlockOnIdentityChange:
             return NSLocalizedString(
                 @"SETTINGS_BLOCK_ON_IDENITY_CHANGE_DETAIL", @"User settings section footer, a detailed explanation");
+        case PrivacySettingsTableViewControllerSectionCalling:
+            if ([self supportsCallKit]) {
+                return NSLocalizedString(@"SETTINGS_SECTION_CALL_KIT_PRIVACY_DESCRIPTION", @"Explanation of the 'CallKit Privacy` preference.");
+            }
         default:
             return nil;
     }
@@ -116,6 +137,16 @@ typedef NS_ENUM(NSInteger, PrivacySettingsTableViewControllerSectionIndex) {
             return self.clearHistoryLogCell;
         case PrivacySettingsTableViewControllerSectionIndexBlockOnIdentityChange:
             return self.blockOnIdentityChangeCell;
+        case PrivacySettingsTableViewControllerSectionCalling:
+            switch (indexPath.row) {
+                case 0:
+                    OWSAssert(self.supportsCallKit);
+                    return self.enableCallKitPrivacyCell;
+                default:
+                    // Unknown cell
+                    OWSAssert(NO);
+                    return nil;
+            }
         default: {
             DDLogError(@"%@ Requested unknown table view cell for row at indexPath: %@", self.tag, indexPath);
             return [UITableViewCell new];
@@ -132,6 +163,8 @@ typedef NS_ENUM(NSInteger, PrivacySettingsTableViewControllerSectionIndex) {
             return NSLocalizedString(@"SETTINGS_HISTORYLOG_TITLE", @"Section header");
         case PrivacySettingsTableViewControllerSectionIndexBlockOnIdentityChange:
             return NSLocalizedString(@"SETTINGS_PRIVACY_VERIFICATION_TITLE", @"Section header");
+        case PrivacySettingsTableViewControllerSectionCalling:
+            return NSLocalizedString(@"SETTINGS_SECTION_TITLE_CALLING", @"settings topic header for table section");
         default:
             return nil;
     }
@@ -180,6 +213,20 @@ typedef NS_ENUM(NSInteger, PrivacySettingsTableViewControllerSectionIndex) {
     BOOL enabled = self.blockOnIdentityChangeSwitch.isOn;
     DDLogInfo(@"%@ toggled blockOnIdentityChange: %@", self.tag, enabled ? @"ON" : @"OFF");
     [Environment.preferences setShouldBlockOnIdentityChange:enabled];
+}
+
+- (void)didToggleEnableCallKitPrivacySwitch:(UISwitch *)sender {
+    DDLogInfo(@"%@ user toggled call kit privacy preference: %@", self.tag, (sender.isOn ? @"ON" : @"OFF"));
+    [[Environment getCurrent].preferences setIsCallKitPrivacyEnabled:!sender.isOn];
+    // TODO:
+//    [[Environment getCurrent].callService createCallUIAdapter];
+}
+
+#pragma mark - Util
+
+- (BOOL)supportsCallKit
+{
+    return SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(10, 0);
 }
 
 #pragma mark - Log util
